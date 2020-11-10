@@ -20,26 +20,20 @@ describe("vehicles integration tests", () => {
         expect(res.body[0].model).toBe("Prius")
     })
 
-    // it("gets a single hoobit from id", async () => {
-    //     const res = await supertest(server).get("/hobbits/2")
-    //     expect(res.statusCode).toBe(200)
-    //     expect(res.type).toBe("application/json")
-    //     expect(res.body.id).toBe(2)
-    //     expect(res.body.name).toBe("frodo")
-    // })
+    it("creates a new vehicle", async() => {
+        const res = await supertest(server)
+            .post("/vehicles")
+            .send({ model: "Jeffrey", make:"Epstein", year: "2019", description: "Did not kill himself" },)
+        expect(res.statusCode).toBe(201)
+        expect(res.type).toBe("application/json")
+        expect(res.body.model).toBe("Jeffrey")
+        expect(res.body.id).toBeDefined()
+    })
 
-    // it("it return an error for hobbit that doesn't exist", async () => {
-    //     const res = await supertest(server).get("/hobbits/50")
-    //     expect(res.statusCode).toBe(404)
-    // })
+    it("deletes a vehicle", async() => {
+        const res = await supertest(server).delete("/vehicles/2")
+        expect(res.statusCode).toBe(200)
+        expect(res.body.message).toBe("Vehicle deleted successfully.")
 
-    // it("creates a new hobbit", async() => {
-    //     const res = await supertest(server)
-    //         .post("/hobbits")
-    //         .send({name: "bilbo"})
-    //     expect(res.statusCode).toBe(201)
-    //     expect(res.type).toBe("application/json")
-    //     expect(res.body.name).toBe("bilbo")
-    //     expect(res.body.id).toBeDefined()
-    // })
+    })
 })

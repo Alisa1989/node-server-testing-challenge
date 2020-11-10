@@ -20,4 +20,14 @@ router.post("/", async (req,res,next) => {
 	}
 })
 
+router.delete("/:id", async (req,res,next) => {
+	try{
+		const { id } = req.params
+		await Vehicles.remove(id)
+		res.status(200).json({ message:"Vehicle deleted successfully."})
+	} catch (err){
+		next(err)
+	}
+})
+
 module.exports = router
